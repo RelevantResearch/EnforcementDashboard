@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Arrest Dashboard</title>
+    <title>Immigration Enforcement Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         /* --- General Styles --- */
@@ -179,15 +179,16 @@
     <!-- Header with Logo -->
     <header>
         <img src="{% static 'images/logo.png' %}" alt="Logo">
-        <h1>Arrest Dashboard</h1>
+        <h1>Immigration Enforcement Dashboard</h1>
     </header>
 
     <!-- Top Navigation -->
     <nav>
-        <a href="#">Dashboard</a>
-        <a href="#">Reports</a>
-        <a href="#">Analytics</a>
-        <a href="#">Settings</a>
+        <a href="{% url 'home' %}">Arrests Dashboard</a>
+        <a href="#">Detainers Dashboard</a>
+        <a href="#">Detentions Dashboard</a>
+        <a href="#">Encounters Dashboard</a>
+        <a href="#">Removals Dashboard</a>
     </nav>
 
     <!-- Filters -->
