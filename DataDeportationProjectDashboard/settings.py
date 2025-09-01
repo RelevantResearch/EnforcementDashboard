@@ -87,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'RelevantResearch',
+        'PASSWORD': 'RelevantResearch12',
         'HOST': 'ice-dashboard.cree44ui4487.eu-central-1.rds.amazonaws.com',
         'PORT': '5432',
     }
