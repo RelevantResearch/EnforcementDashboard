@@ -131,15 +131,16 @@ body {
 .filters-form {
     display: flex;
     gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     width: 100%;
+    overflow: auto;
 }
 
 .filter-group {
     display: flex;
     flex-direction: column;
-    min-width: 150px;
+    min-width: 120px;
 }
 
 .filter-label {
@@ -155,7 +156,6 @@ body {
     font-size: 14px;
     transition: all 0.2s;
 }
-
 .filter-select:hover,
 .filter-input:hover {
     border-color: var(--primary-color);

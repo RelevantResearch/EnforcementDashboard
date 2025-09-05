@@ -7,7 +7,26 @@ import plotly.express as px
 from datetime import datetime
 from plotly.express import Constant
 
+
+
+import plotly.graph_objects as go
+
+def get_chart_html(fig):
+    if fig is None or not fig.data:
+        # create a blank figure
+        fig = go.Figure()
+        fig.update_layout(
+            xaxis=dict(showgrid=False, zeroline=False, visible=False),
+            yaxis=dict(showgrid=False, zeroline=False, visible=False),
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            margin=dict(l=20, r=20, t=20, b=20)
+        )
+    return fig.to_html(full_html=False, include_plotlyjs='cdn', config={'displayModeBar': False})
+
 def dashboard(request):
+    fig_line = None
+    fig_bar_month = None
     # --- Get filters from request ---
     selected_state = request.GET.get('state', 'All')
     selected_composition = request.GET.get('composition', 'All')
@@ -29,12 +48,9 @@ def dashboard(request):
     if selected_state != 'All':
         qs = qs.filter(apprehension_state__iexact=selected_state)
 
-    # Apply age category filter (only when user selects a group)
-    # if selected_age_group != 'All':
-    #     qs = qs.filter(age_category__iexact=selected_age_group)
+    if selected_age_group != 'All':
+        qs = qs.filter(age_category__iexact=selected_age_group)
     
-
-
     if selected_nationality != 'All':
         qs = qs.filter(citizenship_country__iexact = selected_nationality)
 
@@ -262,6 +278,11 @@ def dashboard(request):
         #             .annotate(count=Count('id'))\
         #             .order_by('month')
         # comp_df = pd.DataFrame(list(comp_qs))
+        # comp_qs = qs.annotate(month=TruncMonth('apprehension_date'))\
+        #                          .values('month')\
+        #                          .annotate(count=Count('id'))\
+        #                          .order_by('month')
+        # monthly_counts = pd.DataFrame(list(comp_qs))
         if not monthly_counts.empty:
             fig_line = px.line(monthly_counts, x='month', y='count', markers=False,color_discrete_sequence=['#4FA3E0'],
                                labels={'month':'Year-Month','count':'Number of arrests'},
@@ -328,10 +349,14 @@ def dashboard(request):
                                             )
 
     # Convert charts to HTML
-    chart_line = fig_line.to_html(full_html=False, include_plotlyjs='cdn',
-                                config={'displayModeBar': False})
-    chart_bar_month = fig_bar_month.to_html(full_html=False, include_plotlyjs='cdn',
-                                        config={'displayModeBar': False})
+    # chart_line = fig_line.to_html(full_html=False, include_plotlyjs='cdn',
+    #                             config={'displayModeBar': False})
+    # chart_bar_month = fig_bar_month.to_html(full_html=False, include_plotlyjs='cdn',
+    #                                     config={'displayModeBar': False})
+    
+    chart_line = get_chart_html(fig_line)
+    chart_bar_month = get_chart_html(fig_bar_month)
+
     
 ##################### Maps visualization ############################################
 
@@ -430,37 +455,135 @@ def dashboard(request):
 #                                     config={'displayModeBar':False})
 #     else:
 #         chart_map = "<p>No data to display on map</p>"
+    # map_qs = qs  # already filtered by state/age/date
+
+    # map_counts = map_qs.exclude(apprehension_state='nan')\
+    #                 .exclude(apprehension_state__isnull=True)\
+    #                 .values('apprehension_state') \
+    #                 .annotate(count=Count('id')) \
+    #                 .order_by('-count')
+    # map_counts = pd.DataFrame(list(map_counts))
+    # map_counts = map_counts.sort_values('count', ascending=False).reset_index(drop=True)
+    # map_counts['rank'] = map_counts.index + 1
+    # map_counts['tier'] = (map_counts.index // 10) + 1
+    # map_counts['tier'] = map_counts['tier'].clip(upper=5)
+    # map_counts['tier_str'] = map_counts['tier'].astype(str)
+    # tier_colors = {
+    #     "1": "#08306B",  # very dark blue
+    #     "2": "#2171B5",  # dark blue
+    #     "3": "#4292C6",  # medium blue
+    #     "4": "#6BAED6",  # lighter blue
+    #     "5": "#C6DBEF"   # very light blue
+    # }
+
+    # tier_labels = {
+    #     "1": "Top 1–10",
+    #     "2": "Rank 11–20",
+    #     "3": "Rank 21–30",
+    #     "4": "Rank 31–40",
+    #     "5": "Rank 41–50"
+    # }
+    # map_counts['tier_label'] = map_counts['tier_str'].map(tier_labels)
+
+    # if not map_counts.empty:
+    #     map_counts = map_counts.rename(columns={'apprehension_state': 'state'})
+    #     map_counts['state'] = map_counts['state'].str.strip().str.title()
+    #     map_counts['state_code'] = map_counts['state'].map(state_abbrev)
+    #     map_counts = map_counts.dropna(subset=['state_code'])
+    #     map_counts['count'] = map_counts['count'].astype(int)
+
+    #     # Add hover text
+    #     map_counts['hover_text'] = map_counts['state'] + ': ' + map_counts['count'].astype(str)
+    #     map_counts['count_formatted'] = map_counts['count'].apply(lambda x: f"{x:,}")
+    #     def get_text_color(tier):
+    #         if tier in [1, 2]:  # dark tiers
+    #             return "white"
+    #         else:  # light tiers
+    #             return "black"
+
+    #     fig_map = px.choropleth(
+    #         map_counts[map_counts['count'] > 0],
+    #         locations='state_code',
+    #         locationmode="USA-states",
+    #         color='tier_label',  
+    #         color_discrete_map={
+    #             "Top 1–10": "#08306B",
+    #             "Rank 11–20": "#2171B5",
+    #             "Rank 21–30": "#4292C6",
+    #             "Rank 31–40": "#6BAED6",
+    #             "Rank 41–50": "#C6DBEF"
+    #         },
+    #         scope="usa",
+    #         hover_name='state',
+    #         hover_data={
+    #             'state_code': True,
+    #             'count_formatted': True,
+    #             'tier_label':False# hide this temporary column
+    #         },
+    #         labels = {'tier_labels':'Rank','count_formatted':'Number of arrests'},
+    #         title=f"Arrests by State ({selected_state})"
+    #     )
+    #     # Optional: add annotations (visible numbers on the map)
+    #     for i, row in map_counts.iterrows():
+    #         fig_map.add_scattergeo(
+    #             locations=[row['state_code']],
+    #             locationmode='USA-states',
+    #             text=[f"{row['state_code']}<br>{row['count']:,}"],  # formatted with commas
+    #             mode='text',
+    #             hoverinfo='skip',
+    #             showlegend=False,
+    #             textfont=dict(size=12, color=get_text_color(row['tier']))
+    #         )
+
+    #     fig_map.update_layout(margin={"r":0,"t":50,"l":0,"b":0},
+    #                           legend_title_text = "State Arrest Tiers")
+        
+    #     chart_map = fig_map.to_html(
+    #         full_html=False,
+    #         include_plotlyjs='cdn',
+    #         config={'displayModeBar': False}
+    #     )
+    # else:
+    #     chart_map = "<p>No data to display on map</p>"        
     map_qs = qs  # already filtered by state/age/date
+    if not map_qs.exists():
+        map_counts = pd.DataFrame()
+    else:
+        map_counts = map_qs.exclude(apprehension_state='nan')\
+                        .exclude(apprehension_state__isnull=True)\
+                        .values('apprehension_state') \
+                        .annotate(count=Count('id')) \
+                        .order_by('-count')
 
-    map_counts = map_qs.exclude(apprehension_state='nan')\
-                    .exclude(apprehension_state__isnull=True)\
-                    .values('apprehension_state') \
-                    .annotate(count=Count('id')) \
-                    .order_by('-count')
-    map_counts = pd.DataFrame(list(map_counts))
-    map_counts = map_counts.sort_values('count', ascending=False).reset_index(drop=True)
-    map_counts['rank'] = map_counts.index + 1
-    map_counts['tier'] = (map_counts.index // 10) + 1
-    map_counts['tier'] = map_counts['tier'].clip(upper=5)
-    map_counts['tier_str'] = map_counts['tier'].astype(str)
-    tier_colors = {
-        "1": "#08306B",  # very dark blue
-        "2": "#2171B5",  # dark blue
-        "3": "#4292C6",  # medium blue
-        "4": "#6BAED6",  # lighter blue
-        "5": "#C6DBEF"   # very light blue
-    }
+        map_counts = pd.DataFrame(list(map_counts))
 
-    tier_labels = {
-        "1": "Top 1–10",
-        "2": "Rank 11–20",
-        "3": "Rank 21–30",
-        "4": "Rank 31–40",
-        "5": "Rank 41–50"
-    }
-    map_counts['tier_label'] = map_counts['tier_str'].map(tier_labels)
+    # --- SAFETY CHECK: handle empty DataFrame before any column access ---
+    if map_counts.empty:
+        chart_map = "<p>No data to display on map</p>"
+    else:
+        map_counts = map_counts.sort_values('count', ascending=False).reset_index(drop=True)
+        map_counts['rank'] = map_counts.index + 1
+        map_counts['tier'] = (map_counts.index // 10) + 1
+        map_counts['tier'] = map_counts['tier'].clip(upper=5)
+        map_counts['tier_str'] = map_counts['tier'].astype(str)
 
-    if not map_counts.empty:
+        tier_colors = {
+            "1": "#08306B",  # very dark blue
+            "2": "#2171B5",  # dark blue
+            "3": "#4292C6",  # medium blue
+            "4": "#6BAED6",  # lighter blue
+            "5": "#C6DBEF"   # very light blue
+        }
+
+        tier_labels = {
+            "1": "Top 1–10",
+            "2": "Rank 11–20",
+            "3": "Rank 21–30",
+            "4": "Rank 31–40",
+            "5": "Rank 41–50"
+        }
+        map_counts['tier_label'] = map_counts['tier_str'].map(tier_labels)
+
         map_counts = map_counts.rename(columns={'apprehension_state': 'state'})
         map_counts['state'] = map_counts['state'].str.strip().str.title()
         map_counts['state_code'] = map_counts['state'].map(state_abbrev)
@@ -470,17 +593,17 @@ def dashboard(request):
         # Add hover text
         map_counts['hover_text'] = map_counts['state'] + ': ' + map_counts['count'].astype(str)
         map_counts['count_formatted'] = map_counts['count'].apply(lambda x: f"{x:,}")
+
         def get_text_color(tier):
             if tier in [1, 2]:  # dark tiers
                 return "white"
-            else:  # light tiers
-                return "black"
+            return "black"
 
         fig_map = px.choropleth(
             map_counts[map_counts['count'] > 0],
             locations='state_code',
             locationmode="USA-states",
-            color='tier_label',  
+            color='tier_label',
             color_discrete_map={
                 "Top 1–10": "#08306B",
                 "Rank 11–20": "#2171B5",
@@ -493,46 +616,49 @@ def dashboard(request):
             hover_data={
                 'state_code': True,
                 'count_formatted': True,
-                'tier_label':False# hide this temporary column
+                'tier_label': False
             },
-            labels = {'tier_labels':'Rank','count_formatted':'Number of arrests'},
+            labels={'tier_labels': 'Rank', 'count_formatted': 'Number of arrests'},
             title=f"Arrests by State ({selected_state})"
         )
-        # Optional: add annotations (visible numbers on the map)
+
         for i, row in map_counts.iterrows():
             fig_map.add_scattergeo(
                 locations=[row['state_code']],
                 locationmode='USA-states',
-                text=[f"{row['state_code']}<br>{row['count']:,}"],  # formatted with commas
+                text=[f"{row['state_code']}<br>{row['count']:,}"],
                 mode='text',
                 hoverinfo='skip',
                 showlegend=False,
                 textfont=dict(size=12, color=get_text_color(row['tier']))
             )
 
-        fig_map.update_layout(margin={"r":0,"t":50,"l":0,"b":0},
-                              legend_title_text = "State Arrest Tiers")
-        
+        fig_map.update_layout(margin={"r": 0, "t": 50, "l": 0, "b": 0},
+                            legend_title_text="State Arrest Tiers")
+
         chart_map = fig_map.to_html(
             full_html=False,
             include_plotlyjs='cdn',
             config={'displayModeBar': False}
         )
-    else:
-        chart_map = "<p>No data to display on map</p>"        
+
 
 ########################   Heatmap   ############################################
      
     # # --- Treemap for Apprehension AOR ---
-    aor_total_qs = qs.exclude(apprehension_aor='nan')\
-                    .values('apprehension_aor') \
-                    .annotate(count=Count('id')) \
-                    .order_by('-count')
+    if not qs.exists():
+        aor_total_df = pd.DataFrame()
+    else:
+        aor_total_qs = qs.exclude(apprehension_aor='nan')\
+                        .values('apprehension_aor') \
+                        .annotate(count=Count('id')) \
+                        .order_by('-count')
 
-    aor_total_df = pd.DataFrame(list(aor_total_qs))
-    aor_total_df = aor_total_df.sort_values('count', ascending=False).reset_index(drop=True)
-    aor_total_df['text_color'] = ["white" if i < 7 else "#222222" for i in range(len(aor_total_df))]
+        aor_total_df = pd.DataFrame(list(aor_total_qs))   
+    
     if not aor_total_df.empty:
+        aor_total_df.sort_values('count', ascending=False).reset_index(drop=True)
+        aor_total_df['text_color'] = ["white" if i < 7 else "#222222" for i in range(len(aor_total_df))]
         total_all = aor_total_df['count'].sum()
         aor_total_df['percent'] = 100 * aor_total_df['count'] / total_all
         aor_total_df['count_formatted'] = aor_total_df['count'].apply(lambda x:f"{x:,}")
@@ -614,7 +740,8 @@ def dashboard(request):
     states = ['All'] + list(ArrestRecord.objects.values_list('apprehension_state', flat=True)
                            .distinct().order_by('apprehension_state'))
     compositions = ['All', 'Gender', 'Criminality']  # Age Category removed
-    age_groups = ['All', 'Minors', 'Early Adult', 'Middle Adult', 'Older Adults']
+    # age_groups = ['All', 'Minors', 'Early Adult', 'Middle Adult', 'Older Adults']
+    age_groups = ['All',"Minors(0-17 years)","Early Adult(18-35 years)","Middle Adult(36-64 years)","Older Adults(65+ years)"]
     nationality_groups = ['All'] + list(
         ArrestRecord.objects.values_list('citizenship_country', flat=True)
         .distinct().order_by('citizenship_country')
