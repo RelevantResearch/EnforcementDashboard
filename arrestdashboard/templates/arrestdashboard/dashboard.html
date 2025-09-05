@@ -1,253 +1,269 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Immigration Enforcement Dashboard - Comprehensive analytics and insights">
     <title>Immigration Enforcement Dashboard</title>
+
+    <!-- Fonts & Plotly -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdn.plot.ly/plotly-latest.min.js" as="script">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        /* --- General Styles --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* --- Header --- */
-        header {
-            position: relative;           /* for positioning title */
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        header img {
-            height: 50px;
-        }
-
-        header h1 {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            margin: 0;
-            font-size: 28px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* --- Navigation Bar --- */
-        nav {
-            background-color: #34495e;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: flex-start;
-            gap: 20px;
-        }
-
-        nav a {
-            color: #fff;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: #1abc9c;
-        }
-
-        /* --- Filters --- */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            transition: all 0.2s ease;
-        }
-
-        select:hover {
-            border-color: #2980b9;
-        }
-
-        /* --- Total Arrests --- */
-        .total-arrests {
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 20px auto;
-            color: #e74c3c;
-            background-color: #fdecea;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            max-width: 400px;
-        }
-
-        /* --- Charts --- */
-        .chart-container {
-            width: 95%;
-            max-width: 1600px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .map-container {
-            width: 95%;
-            max-width: 1600px;
-            margin: 20px auto;
-        }
-
-        /* Center all headings */
-        h2 {
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Make all Plotly charts responsive */
-        .chart-container > div,
-        .map-container > div {
-            width: 100% !important;
-            height: 600px !important;
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: #2c3e50;
-            color: #fff;
-            text-align: center;
-            padding: 15px 20px;
-            margin-top: 40px;
-        }
-
-        footer a {
-            color: #1abc9c;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .chart-container > div,
-            .map-container > div {
-                height: 400px !important;
-            }
-
-            .filters {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            select {
-                width: 80%;
-            }
-
-            header h1 {
-                font-size: 22px;
-            }
-
-            nav {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            nav a {
-                margin-bottom: 5px;
-            }
-        }
-    </style>
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 </head>
 <body>
 
-    <!-- Header with Logo -->
-    <header>
-        <img src="{% static 'images/logo.png' %}" alt="Logo">
-        <h1>Immigration Enforcement Dashboard</h1>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="{% static 'images/logo.png' %}" alt="Immigration Dashboard Logo" class="logo">
+                <h1>Immigration Enforcement Dashboard</h1>
+            </div>
+        </div>
     </header>
 
-    <!-- Top Navigation -->
-    <nav>
-        <a href="{% url 'home' %}">Arrests Dashboard</a>
-        <a href="#">Detainers Dashboard</a>
-        <a href="#">Detentions Dashboard</a>
-        <a href="#">Encounters Dashboard</a>
-        <a href="#">Removals Dashboard</a>
+    <!-- Navigation -->
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-content">
+            <ul class="nav-list">
+                <li class="nav-item" id="start-here"><a href="{% url 'documentation' %}">Start Here</a></li>
+                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active" aria-current="page">Arrests Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Detainers Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Detentions Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Encounters Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Removals Dashboard</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Filters -->
-    <div class="filters">
-        <form method="get">
-            <label for="state">Select State:</label>
-            <select name="state" id="state" onchange="this.form.submit()">
-                {% for state in states %}
-                    <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>{{ state }}</option>
-                {% endfor %}
-            </select>
+    <!-- Main content -->
+    <main class="main" id="main-content" role="main">
+        <!-- Grand total field-->
+         <section class="stats-card" aria-labelledby="stats-title">
+            <div class="stats-value">{{ grand_total_arrest|floatformat:"0g" }}</div>
+            <div class="stats-label" id="stats-title">Total Arrests</div>
+            <div class="stats-date" id="stats-date">(From {{first_date}} to {{last_date}})</div>
+        </section>
 
-            <label for="composition">Composition:</label>
-            <select name="composition" id="composition" onchange="this.form.submit()">
-                {% for comp in compositions %}
-                    <option value="{{ comp }}" {% if comp == selected_composition %}selected{% endif %}>{{ comp }}</option>
-                {% endfor %}
-            </select>
+        <!-- Filters -->
+        <section class="filters-section" aria-labelledby="filters-title">
+            <h2 class="filters-title" id="filters-title">Filter Options</h2>
+            <form class="filters-form" method="get" id="filter-form">
+                <div class="filter-group">
+                    <label for="state" class="filter-label">State</label>
+                    <select name="state" id="state" class="filter-select">
+                        {% for state in states %}
+                            <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-            <noscript><input type="submit" value="Filter"></noscript>
-        </form>
-    </div>
+                <div class="filter-group">
+                    <label for="composition" class="filter-label">Composition</label>
+                    <select name="composition" id="composition" class="filter-select">
+                        {% for comp in compositions %}
+                            {% if comp != "Age Category" %}
+                                <option value="{{ comp }}" {% if comp == selected_composition %}selected{% endif %}>{{ comp }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
 
-    <!-- Total Arrests -->
-    <div class="total-arrests">Total Arrests: {{ total_arrests }}</div>
+                <div class="filter-group">
+                    <label for="age_group" class="filter-label">Age Category</label>
+                    <select name="age_group" id="age_group" class="filter-select">
+                        {% for age_group in age_groups %}
+                            <option value="{{ age_group }}" {% if age_group == selected_age_group %}selected{% endif %}>{{ age_group }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    <!-- Bar chart: Arrests by State -->
-    <h2>Arrests by State</h2>
-    <div class="chart-container">
-        {{ chart_bar_state|safe }}
-    </div>
+                <div class="filter-group">
+                    <label for="nationality_group" class="filter-label">Nationality</label>
+                    <select name="nationality_group" id="nationality_group" class="filter-select">
+                        {% for nationality_group in nationality_groups %}
+                            <option value="{{ nationality_group }}" {% if nationality_group == selected_nationality %}selected{% endif %}>{{ nationality_group }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    <!-- Line chart: Monthly Arrests -->
-    <h2>
-        {% if selected_composition == "All" %}Monthly Arrests Over Time{% elif selected_composition == "Gender" %}Monthly Arrests by Gender{% elif selected_composition == "Criminality" %}Monthly Arrests by Criminality{% endif %}
-    </h2>
-    <div class="chart-container">
-        {{ chart_line|safe }}
-    </div>
+                <div class="filter-group">
+                    <label for="from_date" class="filter-label">From Date</label>
+                    <input type="date" name="from_date" id="from_date" class="filter-input" 
+                           value="{{ from_date }}"
+                           {% if min_date %}min="{{ min_date|date:'Y-m-d' }}"{% endif %}
+                           {% if max_date %}max="{{ max_date|date:'Y-m-d' }}"{% endif %}>
+                </div>
 
-    <!-- Bar chart: Monthly Arrests -->
-    <h2>
-        {% if selected_composition == "All" %}Monthly Arrests Bar Chart{% elif selected_composition == "Gender" %}Monthly Arrests by Gender (Stacked){% elif selected_composition == "Criminality" %}Monthly Arrests by Criminality (Stacked){% endif %}
-    </h2>
-    <div class="chart-container">
-        {{ chart_bar_month|safe }}
-    </div>
+                <div class="filter-group">
+                    <label for="to_date" class="filter-label">To Date</label>
+                    <input type="date" name="to_date" id="to_date" class="filter-input" 
+                           value="{{ to_date }}"
+                           {% if min_date %}min="{{ min_date|date:'Y-m-d' }}"{% endif %}
+                           {% if max_date %}max="{{ max_date|date:'Y-m-d' }}"{% endif %}>
+                </div>
 
-    <!-- Choropleth Map: US Arrests -->
-    <h2>US Arrests by State</h2>
-    <div class="map-container chart-container">
-        {{ chart_map|safe }}
-    </div>
+                <!-- Removed submit button since filters auto-apply -->
+            </form>
+        </section>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading dashboard data...</p>
+        </div>
+        <!-- Stats Card-muted -->
+        <!-- <section class="stats-card" aria-labelledby="stats-title">
+            <div class="stats-value">{{ total_arrests|floatformat:"0g" }}</div>
+            <div class="stats-label" id="stats-title">Total Arrests</div>
+        </section> -->
+        <!-- <section class="stats-card" id="arrest-summary-card" aria-labelledby="stats-title-arrest">
+            <div id="arrest-summary-value">{{ total_arrests|floatformat:"0g" }}</div>
+            <div id="stats-title-arrest">Total Arrests</div>
+        </section> -->
+        <section class="stats-card" id="arrest-summary-card" aria-labelledby="stats-title-arrest">
+            <div id="arrest-summary-value">{{ total_arrests|floatformat:"0g" }}</div>
+            <div id="stats-title-arrest">Filtered Arrest Counts</div>
+        </section>
+
+        <style>
+            /* Arrests Count Card */
+            #arrest-summary-card {
+                max-width: 300px;                
+                margin: 2rem auto;               /* center horizontally */
+                padding: 2rem 2.5rem;            
+                background: #f0f9ff;             /* light blue background */
+                border: 1px solid #cce7f6;       /* light blue border */
+                border-radius: 1rem;
+                text-align: center;               /* center text inside */
+                box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            #arrest-summary-card:hover {
+                transform: translateY(-2px);      
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            }
+
+            /* Number styling */
+            #arrest-summary-value {
+                font-size: 36px;                  
+                font-weight: bold;
+                color: #1f618d;                   /* blue font */
+            }
+
+            /* Label styling */
+            #stats-title-arrest {
+                font-size: 16px;
+                font-weight: 500;
+                color: #2e86c1;                   /* blue label */
+                margin-top: 0.5rem;
+            }
+        </style>
+
+
+
+        <!-- Charts -->
+         <section class="chart-section">
+            <h2 class="chart-title">
+                {% if selected_composition == "All" %}Monthly Arrests Distribution{% else %}Monthly Arrests by {{ selected_composition }} (Stacked){% endif %}
+            </h2>
+            <div class="chart-container" role="img" aria-label="Bar chart showing monthly arrest distribution">
+                {{ chart_bar_month|safe }}
+            </div>
+        </section>
+        <!-- <section class="chart-section">
+            <h2 class="chart-title">Arrests by State</h2>
+            <div class="chart-container" role="img" aria-label="Bar chart showing arrests by state">
+                {{ chart_bar_state|safe }}
+            </div>
+        </section> -->
+
+        <section class="chart-section">
+            <h2 class="chart-title">
+                {% if selected_composition == "All" %}Monthly Arrests Over Time{% elif selected_composition == "Gender" %}Monthly Arrests by Gender{% elif selected_composition == "Criminality" %}Monthly Arrests by Criminality{% endif %}
+            </h2>
+            <div class="chart-container" role="img" aria-label="Line chart showing monthly arrest trends">
+                {{ chart_line|safe }}
+            </div>
+        </section>
+        <section class="chart-section map-container">
+            <h2 class="chart-title">US Arrests by State</h2>
+            <div class="chart-container" role="img" aria-label="Choropleth map showing arrests by US state">
+                {{ chart_map|safe }}
+            </div>
+        </section>
+        <section class="chart-section">
+            <h2 class="chart-title">Apprehension AOR Arrests</h2>
+            <div class="chart-container" role="img" aria-label="Apprehension AOR Arrests and its composition">
+                {{ chart_aor|safe }}
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        &copy; 2025 Arrest Dashboard | Designed by 
-        <a href="https://relevant-research.com/">Relevant Research</a> | 
-        Email us at: <a href="mailto:contact@relevantresearch.com">contact@relevantresearch.com</a>
+    <footer style="background: #2c3e50; color: #fff; text-align: center; padding: 2rem; margin-top: 4rem;">
+        <p style="font-size: 2rem; font-weight: bold; margin: 0; line-height: 1.2;">
+            <span style="font-size: 2.5rem; vertical-align: middle;">©</span>
+            <span><a href="https://relevant-research.com" target="_blank" rel="noopener noreferrer" style="color:white; text-decoration: none;"> 2025 Relevant Research</a></span>
+        </p>
+        <!-- <p><a href="{% url 'home' %}">Back to Top</a></p> -->
     </footer>
+
+
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('filter-form');
+            const loading = document.getElementById('loading');
+            const selects = form.querySelectorAll('select, input[type="date"]');
+
+            selects.forEach(element => {
+                element.addEventListener('change', function() {
+                    showLoading();
+                    form.submit();
+                });
+            });
+
+            function showLoading() {
+                loading.classList.add('show');
+                document.querySelectorAll('.chart-container').forEach(container => {
+                    container.style.opacity = '0.5';
+                });
+            }
+
+            const fromDate = document.getElementById('from_date');
+            const toDate = document.getElementById('to_date');
+
+            function validateDateRange() {
+                if (fromDate.value && toDate.value) {
+                    if (new Date(fromDate.value) > new Date(toDate.value)) {
+                        toDate.setCustomValidity('End date must be after start date');
+                        return false;
+                    } else {
+                        toDate.setCustomValidity('');
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+            fromDate.addEventListener('change', validateDateRange);
+            toDate.addEventListener('change', validateDateRange);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.tagName === 'SELECT') {
+                    e.target.blur();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

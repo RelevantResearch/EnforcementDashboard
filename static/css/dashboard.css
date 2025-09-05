@@ -1,0 +1,358 @@
+/* --- General Styles --- */
+:root {
+    --primary-color: #2c3e50;
+    --primary-dark: #34495e;
+    --accent-color: #06b6d4;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-light: #e2e8f0;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- Header --- */
+.header {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* center everything first */
+    position: relative;        /* allow absolute positioning for logo */
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* move logo to far right */
+.header .logo {
+    height: 50px;
+    position: absolute;
+    left: 2rem;   /* keep some spacing from the edge */
+    display: None;
+}
+
+
+/* --- Navigation --- */
+/* --- Navigation --- */
+.nav {
+    background: var(--primary-dark);
+    padding: 0.5rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+}
+
+/* Remove underline globally */
+/* Default nav-link styling */
+.nav-link {
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+/* Hover only for active link */
+.nav-link.active:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+/* Make 'Start here' stick to the far left */
+#start-here {
+    margin-right: auto;  /* pushes others to the right */
+}
+
+/* Style 'Start here' link */
+#start-here a {
+    background: linear-gradient(135deg, #ff6b6b, #e74c3c); /* vibrant red gradient */
+    color: #fff !important;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#start-here a:hover {
+    background: linear-gradient(135deg, #ff8787, #c0392b);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+}
+
+
+/* --- Filters Section --- */
+.filters-section {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: 1rem 2rem;
+    margin: 1.5rem auto;
+    box-shadow: var(--shadow-md);
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filters-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.filters-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.filter-label {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.filter-select,
+.filter-input {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.filter-select:hover,
+.filter-input:hover {
+    border-color: var(--primary-color);
+}
+
+/* --- Stats Card --- */
+.stats-card {
+    background: #fff7f6; /* light red/pink background */
+    color: var(--text-primary);
+    padding: 2rem 3rem;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.2);
+    border: 1px solid #f5c6c3;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(231, 76, 60, 0.3);
+}
+
+.stats-value {
+    font-size: 40px;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.stats-label {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+.stats-card .stats-date {
+    display: block;          /* make sure it takes a line */
+    font-size: 14px;         /* slightly smaller than label */
+    color: #555 !important;  /* darker gray, override if needed */
+    margin-top: 6px;         /* space below label */
+    font-style: italic;      /* subtle */
+    text-align: center;
+    font-weight: bold;      /* center it under the card */
+}
+
+/* Arrests Count Card */
+#arrest-summary-card {
+    max-width: 300px;                /* card width */
+    margin: 2rem auto;               /* center horizontally with vertical spacing */
+    padding: 2rem 2.5rem;            
+    background: #f0f9ff;             /* light blue background */
+    border: 1px solid #cce7f6;       /* light blue border */
+    border-radius: var(--radius-xl);
+    text-align: center;               /* center text inside */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* subtle shadow */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#arrest-summary-card:hover {
+    transform: translateY(-2px);      /* subtle hover effect */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Number styling */
+#arrest-summary-value {
+    font-size: 36px;                  /* larger number */
+    font-weight: bold;
+    color: #1f618d;                   /* blue font */
+}
+
+/* Label styling */
+#stats-title-arrest {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2e86c1;                   /* blue label */
+    margin-top: 0.5rem;
+}
+
+
+/* --- Charts --- */
+.chart-section {
+    margin: 2rem auto;
+    max-width: 1600px;
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* --- Chart Container --- */
+.chart-container {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    margin: 20px auto;
+    max-width: 1600px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container > div {
+    width: 100% !important;
+    height: 700px !important;   /* <-- all charts large height */
+    min-height: 700px !important;
+    flex-grow: 1 !important;
+    background: transparent !important;
+}
+
+/* Map container also larger */
+.map-container .chart-container {
+    height: 900px !important;
+}
+
+/* --- Footer --- */
+.footer {
+    background: var(--primary-dark);
+    color: #fff;
+    padding: 2rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.footer p.copyright {
+    font-size: 4rem;       /* large text */
+    font-weight: bold;
+    margin: 0;
+}
+
+.footer p.copyright .symbol {
+    font-size: 5rem;       /* slightly bigger © symbol */
+    vertical-align: middle;
+}
+
+.footer p.copyright a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+
+
+/* --- Loading Spinner --- */
+.loading {
+    display: none;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.loading.show {
+    display: block;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 1rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .filters-form {
+        flex-direction: column;
+        align-items: center;
+    }
+    .chart-container > div {
+        height: 700px !important;  /* slightly smaller on tablets */
+        min-height: 700px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 20px;
+    }
+    .nav-list {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+    }
+    .chart-container > div {
+        height: 500px !important;  /* smaller on mobile */
+        min-height: 500px !important;
+    }
+}

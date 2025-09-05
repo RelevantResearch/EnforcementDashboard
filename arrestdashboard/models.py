@@ -19,7 +19,8 @@ class ArrestRecord(models.Model):
     gender = models.CharField(max_length=20, null=True, blank=True)
     apprehension_site_landmark = models.CharField(max_length=200, null=True, blank=True)
     unique_identifier = models.CharField(max_length=100, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    age_category = models.CharField(max_length=50, null=True, blank=True)
     
     def __str__(self):
         return f"{self.unique_identifier} | {self.apprehension_state} | {self.case_status}"
-

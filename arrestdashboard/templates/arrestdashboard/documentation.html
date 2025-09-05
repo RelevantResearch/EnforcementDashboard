@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Immigration Enforcement Dashboard</title>
+  <style>
+    /* --- General Styles --- */
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    /* Button Style */
+    .btn-home {
+      display: inline-block;
+      margin: 1.5rem auto;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #1F77B4, #4FA3E0);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .btn-home:hover {
+      background: linear-gradient(135deg, #1F77B4, #4FA3E0);
+      box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    /* --- Start Here Section --- */
+    #start-here {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    #start-here h2 {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      color: #4FA3E0;
+      border-left: 6px solid #4FA3E0;
+      padding-left: 10px;
+    }
+
+    #start-here p {
+      line-height: 1.7;
+      margin-top: 0.8rem;
+    }
+
+    #start-here ul {
+      margin-top: 1rem;
+      padding-left: 1.2rem;
+    }
+
+    #start-here ul li {
+      margin-bottom: 0.6rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Immigration Enforcement Dashboard</h1>
+  </header>
+
+  <!-- Go to Homepage Button -->
+  <div style="text-align:center;">
+    <a href="{% url 'home' %}" class="btn-home">⬅ Go to Homepage</a>
+  </div>
+
+  <!-- Start Here Section -->
+  <section id="start-here">
+    <h2>About the Project</h2>
+    <p>
+      The immigration enforcement dashboard is a standalone project of Relevant Research. 
+      We have taken the immigration enforcement data made public by hard work of the Deportation Data Project 
+      and sought to make it more publicly accessible to a wider audience, especially journalists, researchers, 
+      and policymakers who benefit from well-validated, unbiased, nonpartisan data but do not have the technical 
+      capacity and content area expertise to process large, complex administrative datasets on their own. 
+      We are deeply indebted to the work of the Deportation Data Project and eager to apply our own years 
+      of data research experience to make immigration data more accessible to all members of the public, 
+      regardless of level of expertise or political perspective.
+    </p>
+
+    <h2>Data Processing</h2>
+    <p>
+      The data in this dashboard has undergone careful validation and minimal transformation. 
+      The data was validated by comparing totals of the data internally with known values available 
+      in the public domain to ensure consistency. A minimal amount of data clearing was required: 
+      only multiple records with 100% duplication were reduced to a single record. Some arrest records  
+      show near complete duplication, differing only by the time of arrest (typically within a few hours); 
+      we kept those records in the dataset. We excluded fields with more nuance and complexity, such as 
+      location of arrest and program of arrest, in order to focus limited resources on providing clear 
+      numbers for the most commonly-requested categories; we plan to include these fields in the future, 
+      though with some sensible groupings. We excluded all redacted fields.
+    </p>
+
+    <h2>Glossary</h2>
+    <ul>
+      <li><strong>Arrest:</strong> An apprehension made by an immigration enforcement officer within enforcement and removal operations. These arrests do not include arrests by officers outside of this part of ICE, including officers and other sub agencies, or other federal state and local enforcement officers who have the authority to make immigration arrests. Note that since these numbers represent arrests, and not individual people, one person may be arrested more than one time; nevertheless, for most geographies and at the monthly time period, the number of arrests are largely equivalent to the number of people for all but the most demanding analyses.</li>
+      <li><strong>Date:</strong> Coded in the data as a calendar date and time of day. Our dashboard excludes the time and leaves only the date.</li>
+      <li><strong>State:</strong> The state in which the arrest took place. About 20% of all arrests do not include an entry in the state field.</li>
+      <li><strong>AOR:</strong> ICE is organized geographically and operationally around several Areas of Responsibility. The boundaries of these AORs do not neatly conform to other state and local boundaries. Note that some arrests attributed to ICE agents from one AOR may actually take place outside of that AOR.</li>
+      <li><strong>Gender:</strong> Coded as a binary male or female. A small number of records are blank or list gender as “unknown”; these are excluded from the visualizations related to gender.</li>
+      <li><strong>Criminality:</strong> Categorized by ICE according to whether the person, at time of arrest, was known to have a criminal conviction, pending criminal charge, or only alleged immigration violations.</li>
+      <li><strong>Nationality:</strong> The nationality of the person arrested.</li>
+    </ul>
+
+    <h2>Support &amp; Questions</h2>
+    <p>
+      We welcome questions, comments, and feedback about the dashboard so that we can improve it for the public. 
+      Please note that as a small start-up bootstrapped research firm with a strong focus on social impact rather than profit making, 
+      we do not have the capacity to take on more pro bono research projects that require additional in-depth analysis 
+      while also serving our clients and providing pro bono public services like this one and detentionreports.com. 
+      Please send inquiries to Adam at Relevant Research or let us know if you are interested in research support.
+    </p>
+
+    <h2>Next Steps</h2>
+    <p>
+      Our current immigration enforcement dashboard roadmap includes several projects underway to incrementally improve the arrest dashboard, 
+      add features for usability and accessibility, and complete the development of dashboards for the remaining datasets. 
+      Please note that this project is currently unfunded, and we are actively inviting financial support to help us ensure that 
+      we have the staff time, technical resources, and ongoing refinement to grow the dashboards quickly and responsibly.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #2c3e50; color: #fff; text-align: center; padding: 2rem; margin-top: 4rem;">
+        <p style="font-size: 2rem; font-weight: bold; margin: 0; line-height: 1.2;">
+            <span style="font-size: 2.5rem; vertical-align: middle;">©</span>
+            <span><a href="https://relevant-research.com" target="_blank" rel="noopener noreferrer" style="color:white; text-decoration: none;"> 2025 Relevant Research</a></span>
+        </p>
+        <!-- <p><a href="{% url 'home' %}">Back to Top</a></p> -->
+    </footer>
+</body>
+</html>
