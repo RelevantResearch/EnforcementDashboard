@@ -549,7 +549,7 @@ def dashboard(request):
     if not map_qs.exists():
         map_counts = pd.DataFrame()
     else:
-        map_counts = map_qs.exclude(apprehension_state='nan')\
+        map_counts = map_qs.exclude(apprehension_state='No Values')\
                         .exclude(apprehension_state__isnull=True)\
                         .values('apprehension_state') \
                         .annotate(count=Count('id')) \
