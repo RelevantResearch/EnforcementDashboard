@@ -45,14 +45,14 @@
     <!-- Main content -->
     <main class="main" id="main-content" role="main">
         <!-- Grand total field-->
-         <section class="stats-card" aria-labelledby="stats-title" style="width:350px; padding:1.0%">
+         <section class="stats-card" aria-labelledby="stats-title" style="width:350px;">
             <div class="stats-value">{{ grand_total_arrest|floatformat:"0g" }}</div>
             <div class="stats-label" id="stats-title">Total Arrests</div>
             <div class="stats-date" id="stats-date">(From {{first_date}} to {{last_date}})</div>
         </section>
 
         <!-- Filters -->
-        <section class="filters-section" aria-labelledby="filters-title" style="width:1400px; height:150px; padding:1%">
+        <section class="filters-section" aria-labelledby="filters-title" style="width:1400px;">
             <h2 class="filters-title" id="filters-title">Filter Options</h2>
             <form class="filters-form" method="get" id="filter-form">
                 <div class="filter-group">
