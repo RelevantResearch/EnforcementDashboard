@@ -45,14 +45,14 @@
     <!-- Main content -->
     <main class="main" id="main-content" role="main">
         <!-- Grand total field-->
-         <section class="stats-card" aria-labelledby="stats-title">
+         <section class="stats-card" aria-labelledby="stats-title" style="width:350px; padding:1.0%">
             <div class="stats-value">{{ grand_total_arrest|floatformat:"0g" }}</div>
             <div class="stats-label" id="stats-title">Total Arrests</div>
             <div class="stats-date" id="stats-date">(From {{first_date}} to {{last_date}})</div>
         </section>
 
         <!-- Filters -->
-        <section class="filters-section" aria-labelledby="filters-title" >
+        <section class="filters-section" aria-labelledby="filters-title" style="width:1400px; height:150px; padding:1%">
             <h2 class="filters-title" id="filters-title">Filter Options</h2>
             <form class="filters-form" method="get" id="filter-form">
                 <div class="filter-group">
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="filter-group">
-                    <label for="nationality_group" class="filter-label">Nationality</label>
+                    <label for="nationality_group" class="filter-label">Citizenship</label>
                     <select name="nationality_group" id="nationality_group" class="filter-select">
                         {% for nationality_group in nationality_groups %}
                             <option value="{{ nationality_group }}" {% if nationality_group == selected_nationality %}selected{% endif %}>{{ nationality_group }}</option>
@@ -138,7 +138,7 @@
         </section> -->
         <section class="stats-card" id="arrest-summary-card" aria-labelledby="stats-title-arrest">
             <div id="arrest-summary-value">{{ total_arrests|floatformat:"0g" }}</div>
-            <div id="stats-title-arrest">Filtered Arrest Counts</div>
+            <div id="stats-title-arrest">Filtered Arrests</div>
         </section>
 
         <style>
@@ -181,45 +181,57 @@
         <!-- Charts -->
          <section class="chart-section">
             <h2 class="chart-title">
-                {% if selected_composition == "All" %}Monthly Arrests Distribution{% else %}Monthly Arrests by {{ selected_composition }} (Stacked){% endif %}
+                {% if selected_composition == "All" %}
+                    Monthly Arrests
+                {% else %}
+                    Monthly Arrests by {{ selected_composition }} (Stacked)
+                {% endif %}
             </h2>
-            <div class="chart-container" role="img" aria-label="Bar chart showing monthly arrest distribution">
+            <div class="chart-container" role="img" aria-label="Bar chart showing monthly arrest distribution"
+                style="width:85%; height:500px; padding: 2.5%; margin-bottom:100px;">
                 {{ chart_bar_month|safe }}
             </div>
         </section>
-        <!-- <section class="chart-section">
-            <h2 class="chart-title">Arrests by State</h2>
-            <div class="chart-container" role="img" aria-label="Bar chart showing arrests by state">
-                {{ chart_bar_state|safe }}
-            </div>
-        </section> -->
 
         <section class="chart-section">
             <h2 class="chart-title">
-                {% if selected_composition == "All" %}Monthly Arrests Over Time{% elif selected_composition == "Gender" %}Monthly Arrests by Gender{% elif selected_composition == "Criminality" %}Monthly Arrests by Criminality{% endif %}
+                {% if selected_composition == "All" %}
+                    Monthly Arrests
+                {% elif selected_composition == "Gender" %}
+                    Monthly Arrests by Gender
+                {% elif selected_composition == "Criminality" %}
+                    Monthly Arrests by Criminality
+                {% endif %}
             </h2>
-            <div class="chart-container" role="img" aria-label="Line chart showing monthly arrest trends">
+            <div class="chart-container" role="img" aria-label="Line chart showing monthly arrest trends"
+                style="width:85%; height:500px; padding: 2.5%; margin-bottom:100px;">
                 {{ chart_line|safe }}
             </div>
         </section>
-        <section class="chart-section map-container">
-            <h2 class="chart-title">US Arrests by State</h2>
-            <div class="chart-container" role="img" aria-label="Choropleth map showing arrests by US state">
+
+        <section class="chart-section">
+            <h2 class="chart-title">Arrests by State</h2>
+            <div class="chart-container" role="img" aria-label="Choropleth map showing arrests by US state"
+                style="width:85%; height:600px; padding: 2.5%; margin-bottom:100px;">
                 {{ chart_map|safe }}
             </div>
         </section>
+
         <section class="chart-section">
-            <h2 class="chart-title">Apprehension AOR Arrests</h2>
-            <div class="chart-container" role="img" aria-label="Apprehension AOR Arrests and its composition">
+            <h2 class="chart-title">Arrests by ICE Area of Responsibility</h2>
+            <div class="chart-container" role="img" aria-label="Apprehension AOR Arrests and its composition"
+                style="width:85%; height:500px; padding: 2.5%; margin-bottom:100px;">
                 {{ chart_aor|safe }}
             </div>
         </section>
+        
+
     </main>
 
     <!-- Footer -->
     <footer style="background: #2c3e50; color: #fff; text-align: center; padding: 2rem; margin-top: 4rem;">
-        <p style="font-size: 2rem; font-weight: bold; margin: 0; line-height: 1.2;">
-            <span style="font-size: 2.5rem; vertical-align: middle;">©</span>
+        <p style="font-size: 1rem; font-weight: bold; margin: 0; line-height: 1.2;">
+            <span style="font-size: 1rem; vertical-align: middle;">©</span>
             <span><a href="https://relevant-research.com" target="_blank" rel="noopener noreferrer" style="color:white; text-decoration: none;"> 2025 Relevant Research</a></span>
         </p>
         <!-- <p><a href="{% url 'home' %}">Back to Top</a></p> -->

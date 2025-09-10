@@ -133,7 +133,8 @@ def dashboard(request):
                 plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
                 paper_bgcolor='rgba(173, 216, 230, 0.2)',
                 legend=dict(x=0.05,y=1,bgcolor='rgba(173,216,230,0.2)'),
-                margin=dict(l=40, r=40, t=80, b=40)
+                height=500,
+                margin=dict(l=20, r=20, t=40, b=20)
             )
             comp_df['bar_label'] = comp_df['count'].apply(lambda x: f"{x:,}")
             comp_df['percent_str'] = comp_df['percent'].apply(lambda x: f"{x:.1f}%")
@@ -175,13 +176,14 @@ def dashboard(request):
                 legend=dict(x=0.05,y=1,bgcolor='rgba(173,216,230,0.2)'),
                 uniformtext_minsize=10,
                 uniformtext_mode='hide',
-                # height = 800,
+                height = 500,
                 plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
-                paper_bgcolor='rgba(173, 216, 230, 0.2)'   # even lighter for paper
+                paper_bgcolor='rgba(173, 216, 230, 0.2)',
+                margin=dict(l=20, r=20, t=40, b=20)   # even lighter for paper
 
             )
 ############################  Criminality Composition ##################################
-    elif selected_composition == "Criminality":
+    elif selected_composition == "Criminal History":
         comp_qs = qs.values('apprehension_criminality') \
                     .annotate(month=TruncMonth('apprehension_date')) \
                     .values('month', 'apprehension_criminality') \
@@ -210,7 +212,7 @@ def dashboard(request):
                 markers=False,
                 category_orders={'apprehension_criminality':['1 Convicted Criminal','2 Pending Criminal Charges','3 Other Immigration Violator']},
                 labels={'month':'Year-Month','count':'Number of arrests','apprehension_criminality':'Criminality','percent':'% per month'},
-                title=f"Monthly Arrests by Criminality ({selected_state})",
+                title=f"Monthly Arrests by Criminal History ({selected_state})",
                 line_shape='spline'  # smooth line
             )
 
@@ -232,7 +234,8 @@ def dashboard(request):
                 plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
                 paper_bgcolor='rgba(173, 216, 230, 0.2)',
                 legend=dict(x=0.05,y=1,bgcolor='rgba(173,216,230,0.2)'),
-                margin=dict(l=40, r=40, t=80, b=40)
+                height=500,
+                margin=dict(l=20, r=20, t=40, b=20)
             )
             # Bar chart with hover showing count + percentage
             fig_bar_month = px.bar(
@@ -252,7 +255,7 @@ def dashboard(request):
                 },
                 category_orders={'apprehension_criminality':['1 Convicted Criminal','2 Pending Criminal Charges','3 Other Immigration Violator']},
                 labels={'month':'Year-Month','count':'Number of arrests','apprehension_criminality':'Criminality','percent_str':'% of monthly total'},
-                title=f"Monthly Arrests by Criminality ({selected_state})"
+                title=f"Monthly Arrests by Criminal History ({selected_state})"
             )
             fig_bar_month.update_layout(barmode='stack',
                                         xaxis=dict(
@@ -266,9 +269,10 @@ def dashboard(request):
                                         legend=dict(x=0.05,y=1,bgcolor='rgba(173,216,230,0.2)'),
                                         uniformtext_minsize=10,
                                         uniformtext_mode='hide',
-                                        # height = 800,
+                                        height = 500,
                                         plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
-                                        paper_bgcolor='rgba(173, 216, 230, 0.2)'
+                                        paper_bgcolor='rgba(173, 216, 230, 0.2)',
+                                        margin=dict(l=20, r=20, t=40, b=20)
                                         )
 
     else:
@@ -286,7 +290,7 @@ def dashboard(request):
         if not monthly_counts.empty:
             fig_line = px.line(monthly_counts, x='month', y='count', markers=False,color_discrete_sequence=['#4FA3E0'],
                                labels={'month':'Year-Month','count':'Number of arrests'},
-                            title=f"Monthly Arrests Over Time ({selected_state})")
+                            title=f"Monthly Arrests Line Graph ({selected_state})")
             fig_line.update_traces(
                 line=dict(width=4, shape='spline', smoothing=0.3),  # 0 = linear, 1 = very smooth
                 marker=dict(size=1)
@@ -320,7 +324,9 @@ def dashboard(request):
                 plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
                 paper_bgcolor='rgba(173, 216, 230, 0.2)',
                 legend=dict(x=0.05,y=1,bgcolor='rgba(173,216,230,0.2)'),
-                margin=dict(l=40, r=40, t=80, b=40)
+                margin=dict(l=20, r=20, t=40, b=20),
+                height=500
+                
             )
             monthly_counts['bar_label'] = monthly_counts['count'].apply(lambda x: f"{x:,}")
             fig_bar_month = px.bar(monthly_counts, x='month', y='count', text='bar_label',
@@ -331,7 +337,7 @@ def dashboard(request):
                                 },
                                 color_discrete_sequence=['#4FA3E0'],
                                 labels={'month':'Year-Month','count':'Number of arrests'},
-                                title=f"Monthly Arrests Bar Chart ({selected_state})")
+                                title=f"Monthly Arrests Bar Graph ({selected_state})")
             fig_bar_month.update_layout(barmode='stack',
                                             xaxis=dict(
                                             tickformat='%b%Y',
@@ -345,8 +351,16 @@ def dashboard(request):
                                             uniformtext_mode='hide',
                                             # height = 800,
                                             plot_bgcolor='rgba(173, 216, 230, 0.15)',   # very light transparent blue
-                                            paper_bgcolor='rgba(173, 216, 230, 0.2)'
+                                            paper_bgcolor='rgba(173, 216, 230, 0.2)',
+                                            autosize=True,
+                                            height=500,   # match container height
+                                            # width = 400,
+                                            margin=dict(l=20, r=20, t=40, b=20)
                                             )
+            # fig_bar_month.update_layout(
+            #                     xaxis=dict(automargin=True),
+            #                     yaxis=dict(automargin=True)
+            #                 )
 
     # Convert charts to HTML
     # chart_line = fig_line.to_html(full_html=False, include_plotlyjs='cdn',
@@ -633,8 +647,9 @@ def dashboard(request):
                 textfont=dict(size=12, color=get_text_color(row['tier']))
             )
 
-        fig_map.update_layout(margin={"r": 0, "t": 50, "l": 0, "b": 0},
-                            legend_title_text="State Arrest Tiers")
+        fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0),
+                            legend_title_text="State Arrest Tiers",
+                            height=600)
 
         chart_map = fig_map.to_html(
             full_html=False,
@@ -678,7 +693,7 @@ def dashboard(request):
         values='count',
         color='count',
         color_continuous_scale="Blues",  
-        title="Arrests by AOR",
+        title="Arrests by ICE AOR",
         custom_data=['short_name', 'count_formatted','count', 'percent']  # for text/hover
     )
 
@@ -720,8 +735,9 @@ def dashboard(request):
         )
 
         fig_aor.update_layout(
-            margin=dict(l=20, r=20, t=50, b=20),
+            margin=dict(l=20, r=20, t=40, b=20),
             paper_bgcolor='rgba(173, 216, 230, 0.2)',
+            height=500,
             uniformtext_minsize=10,
             uniformtext_mode="hide"
         )
@@ -739,7 +755,7 @@ def dashboard(request):
     # --- Prepare dropdowns ---
     states = ['All'] + list(ArrestRecord.objects.values_list('apprehension_state', flat=True)
                            .distinct().order_by('apprehension_state'))
-    compositions = ['All', 'Gender', 'Criminality']  # Age Category removed
+    compositions = ['All', 'Gender', 'Criminal History']  # Age Category removed
     # age_groups = ['All', 'Minors', 'Early Adult', 'Middle Adult', 'Older Adults']
     age_groups = ['All',"Minors(0-17 years)","Early Adult(18-35 years)","Middle Adult(36-64 years)","Older Adults(65+ years)"]
     nationality_groups = ['All'] + list(
