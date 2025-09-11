@@ -52,7 +52,7 @@
         </section>
 
         <!-- Filters -->
-        <section class="filters-section" aria-labelledby="filters-title">
+        <section class="filters-section" aria-labelledby="filters-title" style="width:1350px;">
             <h2 class="filters-title" id="filters-title">Filter Options</h2>
             <form class="filters-form" method="get" id="filter-form">
                 <div class="filter-group">
@@ -120,6 +120,14 @@
 
                 <!-- Removed submit button since filters auto-apply -->
             </form>
+            <div style="margin-top: 1rem;">
+                    <a href="{% url 'home' %}" 
+                    style="display: inline-block; padding: 8px 16px; background-color: #f0f0f0; 
+                            color: #333; border-radius: 6px; text-decoration: none; 
+                            border: 1px solid #ccc;">
+                        Reset Filters
+                    </a>
+                </div>
         </section>
 
         <!-- Loading -->
