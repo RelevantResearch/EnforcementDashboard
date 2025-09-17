@@ -91,7 +91,7 @@ body {
 
 /* Style 'Start here' link */
 #start-here a {
-    background: linear-gradient(135deg, #ff6b6b, #e74c3c); /* vibrant red gradient */
+    /* background: linear-gradient(135deg, #ff6b6b, #e74c3c); vibrant red gradient */
     color: #fff !important;
     font-weight: bold;
     padding: 0.5rem 1rem;
@@ -102,7 +102,7 @@ body {
 
 /* Hover effect */
 #start-here a:hover {
-    background: linear-gradient(135deg, #ff8787, #c0392b);
+    /* background: linear-gradient(135deg, #ff8787, #c0392b); */
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
 }

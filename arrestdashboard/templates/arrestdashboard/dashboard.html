@@ -32,7 +32,15 @@
     <nav class="nav" role="navigation" aria-label="Main navigation">
         <div class="nav-content">
             <ul class="nav-list">
-                <li class="nav-item" id="start-here"><a href="{% url 'documentation' %}">Start Here</a></li>
+                <!-- <li class="nav-item" id="start-here"><a href="{% url 'documentation' %}" style="text-decoration: none; background:none;">Start Here</a></li> -->
+                 <li class="nav-item" id="start-here" style="list-style: none; border: none; margin: 0; padding: 0;">
+                    <a href="{% url 'documentation' %}" 
+                        style="text-decoration: none; background: none; border: none; outline: none; color: black; box-shadow: none;"
+                        onmouseover="this.style.backgroundColor='#06b6d4';" 
+                        onmouseout="this.style.backgroundColor='';">
+                        Start Here
+                    </a>
+                </li>
                 <li class="nav-item"><a href="{% url 'home' %}" class="nav-link active" aria-current="page">Arrests Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Detainers Dashboard</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Detentions Dashboard</a></li>
