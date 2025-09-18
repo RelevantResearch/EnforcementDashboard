@@ -101,15 +101,15 @@
   <section id="start-here">
     <h1>Immigration Enforcement Dashboard</h1>
     <p>
-      This dashboard provides easy-to-use charts and maps showing when, where, and who ICE arrests in the United States. 
+      The Immigration Enforcement Dashboard provides easy-to-use charts and maps showing when, where, and who ICE arrests in the United States, with other datasets to be added soon.  
       The data comes from government records obtained through public information requests and litigation by the 
       <a href="https://deportationdata.org/" target="_blank">Deportation Data Project</a>.
     </p>
 
     <h2>About the Immigration Enforcement Dashboard</h2>
     <p>
-      The Immigration Enforcement Dashboard is an independent project developed by Relevant Research to enhance public accessibility of immigration enforcement data originally compiled by the Deportation Data Project. 
-      This dashboard transforms complex administrative datasets into accessible visualizations and analysis tools for journalists, researchers, and policymakers who require validated, nonpartisan data but lack the technical infrastructure or domain expertise to independently process large-scale government datasets. 
+      The Immigration Enforcement Dashboard is an independent project developed by Relevant Research to enhance public accessibility of immigration enforcement data obtained and published by the Deportation Data Project. 
+      This dashboard transforms complex administrative datasets into accessible visualizations and analysis tools for journalists, researchers, and policymakers who require validated, nonpartisan data but lack the technical infrastructure or domain expertise to independently process large-scale government datasets.The project leverages Relevant Research’s experience in administrative data analysis to broaden access to immigration enforcement information across diverse user communities and skill levels.
       Consider also visiting our related project at <a href="https://detentionreports.com" target="_blank">DetentionReports.com</a>.
     </p>
 
@@ -120,26 +120,29 @@
     <ul>
       <li><strong>Data Definition and Scope</strong>
         <p>
-          An arrest in this dataset represents an apprehension conducted by an ICE Enforcement and Removal Operations (ERO) officer. 
-          This data does not include arrests by non-ERO ICE officers, other DHS agencies and subagencies, nor federal, state, or local enforcement officers with immigration arrest authority.
+          An arrest in this dataset represents an apprehension conducted by an immigration enforcement officer within ICE Enforcement and Removal Operations (ERO).  
+          This data does not include arrest by non-ERO ICE officers, other DHS agencies and subagencies, nor federal, state, or local enforcement officers with immigration arrest authority (e.g., through 287(g) agreements).
         </p>
       </li>
 
       <li><strong>Data Validation and Processing</strong>
         <p>
-          Aggregate totals were compared against publicly reported ICE statistics to verify completeness and accuracy. Only 100% duplicated records were consolidated to single entries. Near-duplicate records differing only in arrest time (typically within hours) were retained based on three factors: maximizing data inclusion, the technical and legal possibility of multiple daily arrests, and the absence of evidence that ICE excludes such records from public reporting. Approximately 54 records are identical except for arrest times within 24-hour periods.
+          This dataset was validated by comparing aggregate totals to publicly reported ICE statistics to verify data completeness and accuracy. This validation confirms that dashboard figures align with ICE's official public reporting, indicating adequate data production through the FOIA process. Numbers here may not align with all official government statements, either due to differences in methodology or intentional or unintentional misrepresentation of the data.
+        </p>
+        <p>
+          Data processing was intentionally kept to a minimum. Only 100% duplicated records (n=54) were consolidated to single entries. Near-duplicate records differing only in arrest time (typically within hours) were retained based on three factors: maximizing data inclusion, the technical and legal possibility of multiple daily arrests, and the absence of evidence that ICE excludes such records from public reporting.
         </p>
       </li>
 
       <li><strong>Individual Identifiers and Reporting Considerations</strong>
         <p>
-          The dataset includes unique identifiers—randomly generated numbers linking multiple records to individual persons. Analysis indicates approximately 14,349 individuals (4.9% of total) experienced multiple arrests across the timespan of the dataset. Therefore, it is most accurate to refer to these data as “ICE arrests” (i.e., arrest events) rather than "people arrested." However, given the small proportion of repeat arrests for any given geography and time period, the terms "ICE arrests" and "people arrested by ICE" may be used interchangeably for general audiences without significant data misrepresentation.
+          The dataset includes unique identifiers—,randomly generated numbers linking multiple records to individual persons. Analysis indicates that 14,349 individuals (4.9% of total) experienced multiple arrests across the timespan of the dataset. Therefore, it is most accurate to refer to these data as “ICE arrests” (i.e., arrest events) rather than "people arrested." However, given the relatively small proportion of repeat arrests for any given geography and time period, the terms "ICE arrests" and "people arrested by ICE" may be used interchangeably for general audiences.
         </p>
       </li>
 
       <li><strong>Field Exclusions</strong>
         <p>
-          Some complex fields, including arrest location and program classification, were excluded to prioritize commonly requested categories. All redacted fields were excluded from the dashboard; these may be incorporated in future updates.
+          In this first release, some administrative fields, including arrest location and program classification, were excluded to prioritize commonly requested data categories. These fields will be incorporated in future updates. All redacted fields were excluded from the dashboard.
         </p>
       </li>
 
@@ -157,7 +160,7 @@
     </ul>
 
 
-    <h2>Glossary</h2>
+    <h2>Data Fields</h2>
     <ul>
       <li><strong>Arrest:</strong> An apprehension made by an immigration enforcement officer within Enforcement and Removal Operations. </li>
       <li><strong>Date:</strong> Coded in ICE’s data as a calendar date and time of day. Dashboard excludes time and leaves only calendar date.</li>
@@ -168,10 +171,11 @@
       <li><strong>Citizenship:</strong> The citizenship of the person arrested. Coded as “Citizenship Country” in ICE’s data. Note that a person’s citizenship, nationality, and country of birth may not be identical.</li>
     </ul>
 
-    <h2>Dashboard Elements</h2>
+    <h2>Dashboard Elements(from top to bottom)</h2>
     <ul>
       <li><strong>Total Arrests:</strong> Displays the complete count of arrest records in the dataset and the temporal range from earliest to latest recorded date. </li>
       <li><strong>Filtering Options:</strong> Filter selections apply across all dashboard visualizations and summary statistics.</li>
+      <li><strong>Filtered Arrests</strong>Shows the subset count of arrest records matching active filter criteria. If no filters are applied, Filtered Arrests will equal Total Arrests.</li>
       <li><strong>Monthly Arrests (Bar Graph):</strong> Displays arrest totals by month according to active filters.</li>
       <li><strong>Monthly Arrests (Line Graph):</strong> Presents monthly arrest trends with better ability to compare totals when composition (gender or criminal history) are displayed.</li>
       <li><strong>Arrest Map:</strong> Geographic visualization based on the state field in source data. Excludes records with missing state entries (approximately 20% of total) and arrests occurring outside the 50 U.S. states (e.g., territories, international locations).</li>
