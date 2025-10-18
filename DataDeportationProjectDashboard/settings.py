@@ -23,9 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$(nqh1=@u(aa-h*%o6$z%xr1-)w(b@c^$(qg=o4_j!9r2rqn=#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+#ALLOWED_HOSTS = ["*"]
+
+
+DEBUG = False
+ALLOWED_HOSTS = ["enforcementdashboard.com", "3.231.142.253"]
 
 
 # Application definition
@@ -82,13 +86,24 @@ WSGI_APPLICATION = 'DataDeportationProjectDashboard.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+#DATABASES = {
+ #   'default': {
+  #      'ENGINE': 'django.db.backends.postgresql',
+   #     'NAME': 'postgres',
+    #    'USER': 'postgres',
+     #   'PASSWORD': 'RelevantResearch12',
+      #  'HOST': 'ice-dashboard.cree44ui4487.eu-central-1.rds.amazonaws.com',
+      #  'PORT': '5432',
+   # }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'RelevantResearch12',
-        'HOST': 'ice-dashboard.cree44ui4487.eu-central-1.rds.amazonaws.com',
+        'NAME': 'enforcementdashboard',
+        'USER': 'enforcementuser',
+        'PASSWORD': 'StrongPassword123!',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
